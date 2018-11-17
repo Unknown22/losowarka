@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, redirect, url_for, render_template, request
-from sqlite_handler import create_connection, prepare_schema, prepare_start_data, check_if_person_got_reminder_key, \
+from sql_handler import create_connection, prepare_schema, prepare_start_data, check_if_person_got_reminder_key, \
     get_person_and_reminder_pin, get_person_pin, get_person_reminder_pin, get_person_to_gift
 from forms import MainForm
 
@@ -13,7 +13,7 @@ def home():
     form = MainForm(request.form)
     if request.method == "POST":
         if form.validate():
-            conn = create_connection("sql.db")
+            conn = create_connection()
             if request.form['action'] == "Potwierdź":
                 if get_person_pin(conn, form.name.data) != int(form.pin.data):
                     return "Niepoprawny pin"
@@ -43,7 +43,7 @@ def page_not_found(e):
 
 
 if __name__ == '__main__':
-    conn = create_connection("sql.db")
+    conn = create_connection()
     prepare_schema(conn)
     prepare_start_data(conn)
     app.config['SECRET_KEY'] = 'kakadu'
