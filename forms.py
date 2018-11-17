@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
+
 from wtforms import IntegerField, SelectField, Form
-from wtforms.validators import Required
+from wtforms.validators import DataRequired
 
 
 class MainForm(Form):
@@ -10,5 +12,5 @@ class MainForm(Form):
         ("Klaudia", "Klaudia"),
         ("Przemek", "Przemek")
     ]
-    name = SelectField('Jak masz na imię?', choices=people)#, validators=[required()])
-    pin = IntegerField('Podaj kod pin:')#, validators=[required()])
+    name = SelectField('Jak masz na imię?', choices=people, validators=[DataRequired()])
+    pin = IntegerField('Podaj kod pin:', validators=[DataRequired()])

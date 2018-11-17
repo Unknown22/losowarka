@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask import Flask, redirect, url_for, render_template, request
 from sqlite_handler import create_connection, prepare_schema, prepare_start_data, check_if_person_got_reminder_key, \
     get_person_and_reminder_pin, get_person_pin, get_person_reminder_pin, get_person_to_gift
