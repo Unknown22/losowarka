@@ -10,7 +10,8 @@ class MainForm(Form):
         ("Anita", "Anita"),
         ("Karolina", "Karolina"),
         ("Klaudia", "Klaudia"),
-        ("Przemek", "Przemek")
+        ("Przemek", "Przemek"),
+        ("Sylwia", "Sylwia")
     ]
     name = SelectField('Jak masz na imię?', choices=people, validators=[DataRequired()])
     pin = IntegerField('Podaj kod pin:', validators=[DataRequired()])

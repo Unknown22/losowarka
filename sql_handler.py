@@ -120,6 +120,11 @@ def prepare_start_data(conn):
             "person": "Karolina",
             "pin": 373632,
             "reminder_pin": 209798
+        },
+        {
+            "person": "Sylwia",
+            "pin": 823155,
+            "reminder_pin": 205075
         }
     ]
     prepare_auth(conn, people)
@@ -146,11 +151,14 @@ def get_person_and_reminder_pin(conn, person):
     for p in execute_select(conn, sql).fetchall():
         available_people.append(p['person'])
 
+    person_to_return = None
     if len(available_people) == 2:
         sql = 'SELECT person, got_reminder_pin FROM auth WHERE is_available = 1 AND person != "{person}";'.format(**{"person": person})
         for p in execute_select(conn, sql).fetchall():
             if p['got_reminder_pin'] == 0:
                 person_to_return = p['person']
+        if not person_to_return:
+            person_to_return = random.choice(available_people)
     else:
         person_to_return = random.choice(available_people)
         if person in ['Klaudia', 'Przemek']:
