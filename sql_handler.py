@@ -143,10 +143,16 @@ def get_person_reminder_pin(conn, person):
 def get_person_and_reminder_pin(conn, person):
     sql = 'SELECT person FROM auth WHERE is_available = 1 AND person != "{person}";'.format(**{"person": person})
     available_people = []
-    print(execute_select(conn, sql).fetchall())
     for p in execute_select(conn, sql).fetchall():
         available_people.append(p['person'])
-    person_to_return = random.choice(available_people)
+
+    if len(available_people) == 2:
+        sql = 'SELECT person, got_reminder_pin FROM auth WHERE is_available = 1 AND person != "{person}";'.format(**{"person": person})
+        for p in execute_select(conn, sql).fetchall():
+            if p['got_reminder_pin'] == 0:
+                person_to_return = p['person']
+    else:
+        person_to_return = random.choice(available_people)
 
     sql = 'UPDATE auth SET is_available = 0 WHERE person = "{person}";'.format(**{"person": person_to_return})
     execute_sql(conn, sql)
