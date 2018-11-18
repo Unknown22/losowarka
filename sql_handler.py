@@ -3,6 +3,7 @@
 import pymysql
 import random
 import os
+import logging
 
 db_user = os.environ.get('CLOUD_SQL_USERNAME')
 db_password = os.environ.get('CLOUD_SQL_PASSWORD')
@@ -28,7 +29,8 @@ def create_connection():
                                   host=host, db=db_name, cursorclass=pymysql.cursors.DictCursor)
         return cnx
     except Exception as e:
-        print("Error in MySQL connection. {}".format(e))
+        logger = logging.getLogger("flask.app")
+        logger.exception("Error in MySQL connection. {}".format(e))
 
 
 def execute_sql(conn, sql):
