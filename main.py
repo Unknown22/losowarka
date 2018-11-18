@@ -14,6 +14,10 @@ def home():
     if request.method == "POST":
         if form.validate():
             conn = create_connection()
+            app.logger.info("Preparing schema")
+            prepare_schema(conn)
+            app.logger.info("Inserting init data")
+            prepare_start_data(conn)
             if request.form['action'] == "Potwierdź":
                 if get_person_pin(conn, form.name.data) != int(form.pin.data):
                     return "Niepoprawny pin"
@@ -43,10 +47,5 @@ def page_not_found(e):
 
 
 if __name__ == '__main__':
-    conn = create_connection()
-    app.logger.info("Preparing schema")
-    prepare_schema(conn)
-    app.logger.info("Inserting init data")
-    prepare_start_data(conn)
     app.config['SECRET_KEY'] = 'kakadu'
     app.run(port=8080, debug=True)
