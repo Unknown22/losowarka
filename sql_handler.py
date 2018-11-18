@@ -153,6 +153,9 @@ def get_person_and_reminder_pin(conn, person):
                 person_to_return = p['person']
     else:
         person_to_return = random.choice(available_people)
+        if person in ['Klaudia', 'Przemek']:
+            while person_to_return in ['Klaudia', 'Przemek']:
+                person_to_return = random.choice(available_people)
 
     sql = 'UPDATE auth SET is_available = 0 WHERE person = "{person}";'.format(**{"person": person_to_return})
     execute_sql(conn, sql)
