@@ -44,7 +44,9 @@ def page_not_found(e):
 
 if __name__ == '__main__':
     conn = create_connection()
+    print("Preparing schema")
     prepare_schema(conn)
+    print("Inserting init data")
     prepare_start_data(conn)
     app.config['SECRET_KEY'] = 'kakadu'
     app.run(port=8080, debug=True)
